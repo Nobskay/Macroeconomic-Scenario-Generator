@@ -1,425 +1,140 @@
-# Macroeconomic Scenario Generator Prototype
+**Here's the updated `README.md` with a neutral, professional name:**
 
-This project is a macroeconomic scenario generator prototype developed using Python and Google Collab (`.ipynb`).
+```markdown
+# Macroeconomic Scenario Generator
 
-The notebook combines:
+A comprehensive **time series forecasting pipeline** that combines **VAR(1)** for exogenous variables with **SARIMAX** for target forecasting, including multi-scenario analysis and custom shock simulation.
 
-* Data preprocessing
-* VAR(1) forecasting
-* SARIMAX modeling
-* Recession probability estimation
-* Shock scenario simulation
-* Scenario-oriented stress testing
-* Automated visualization and reporting
-
-The entire workflow is implemented inside a Jupyter Notebook environment for experimentation, forecasting, visualization, and scenario analysis.
+Designed for macroeconomic forecasting, banking stress testing, and scenario analysis.
 
 ---
 
-# Notebook Overview
+## ✨ Features
+
+- **Flexible Data Input**: Support for Google Sheets, Google Drive, or local CSV upload
+- **Automated Data Cleaning**: Missing value handling, outlier treatment (winsorization), and monthly frequency alignment
+- **Exploratory Data Analysis**: Time series visualization and descriptive statistics
+- **Exogenous Forecasting**: VAR(1) model with Monte Carlo simulation (confidence bands)
+- **Target Forecasting**: SARIMAX models using predicted exogenous variables
+- **Multi-Scenario Analysis**: Base, Stress (P10), Optimistic (P90), P25, P75, Worst, and Best scenarios
+- **Custom Shock Generator**: Ramp → Plateau → Decay shock profiles with adjustable severity
+- **Comprehensive Reporting**: Excel, PDF, and CSV exports with visualizations
+- **Interactive Interface** (Colab): Easy parameter tuning and scenario customization
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core**: Python, pandas, NumPy
+- **Modeling**: statsmodels (VAR, SARIMAX)
+- **Visualization**: Matplotlib
+- **Reporting**: xlsxwriter, matplotlib (PDF)
+- **Environment**: Google Colab (recommended)
+
+---
+
+## 📁 Project Structure
 
 ```bash
-ScenarioA_INDONESIA_Prototype_1_Completed_.ipynb
+/
+├── timeseries_clean.csv                  # Cleaned dataset
+├── data/
+│   ├── var.csv                           # VAR(1) coefficients
+│   ├── var1chol.csv                      # Cholesky decomposition
+│   ├── X_future_*.csv                    # Exogenous forecasts (mean, p10, p25, etc.)
+│   ├── model_performance.csv
+│   ├── model_diagnostics.csv
+│   └── [TARGET]_[SCENARIO]_forecast.csv
+├── plots/
+│   └── all_variables_bands.png
+├── report/
+│   ├── Macro_Report.xlsx
+│   ├── Macro_Report.pdf
+│   └── Scenario_CSVs.zip
+└── outputs/                              # Custom shock results
 ```
 
-This notebook contains the full end-to-end pipeline:
-
-1. Data loading
-2. Data cleaning
-3. Exploratory visualization
-4. VAR(1) exogenous variable forecasting
-5. SARIMAX prediction modeling
-6. Evaluation metrics generation
-7. Shock scenario analysis
-8. Summary & reporting
-
 ---
 
-# Project Features
+## 🚀 How to Use
 
-PRISM Backend API is a modular FastAPI-based backend for macroeconomic forecasting, recession probability modeling, Scenario scenario generation, and dataset management.
-
-The system is designed to support end-to-end economic scenario analysis workflows, including:
-
-* Dataset upload & preprocessing
-* Variable selection
-* VAR(1) macroeconomic simulation
-* Recession probability estimation
-* Scenario scenario generation
-* File history & audit tracking
-
----
-
-# Features
-
-## 1. Data Upload & Cleaning
-
-Module: `load.py`
-
-Features:
-
-* Upload CSV/XLSX datasets
-* Automatic date column detection
-* Data cleaning & preprocessing
-* Time-series visualization
-* Audit reporting
-* Multi-panel plotting for numeric variables
-
----
-
-## 2. Variable Selection
-
-Module: `pilih_var.py`
-
-Features:
-
-* Select target variables
-* Select exogenous (macro) variables
-* Export `y.csv` and `X.csv`
-* HTML checklist UI
-* Save configuration into `selection.json`
-
----
-
-## 3. VAR(1) Macroeconomic Simulation
-
-Module: `var_macro.py`
-
-Features:
-
-* VAR(1) Monte Carlo simulation
-* Fan chart generation
-* Forecast percentile summaries
-* Historical + forecast visualization
-* Automatic fallback to AutoReg for single-variable models
-
----
-
-## 4. Recession Probability Modeling
-
-Module: `prob_resesi.py`
-
-Features:
-
-* Logistic regression recession model
-* Recession probability forecasting
-* Visualization of recession probability paths
-* Mean path estimation from VAR output
-
----
-
-## 5. Scenario Scenario Generator
-
-Module: `model_esg.py`
-
-Features:
-
-* Asset-to-macro mapping
-* Scenario Monte Carlo simulation
-* Stress testing outputs
-* Validation metrics
-* Historical + projected Scenario visualization
-* SoA export generation
-
----
-
-## 6. File History & Audit
-
-Module: `file_history.py`
-
-Features:
-
-* Dataset file tracking
-* Audit metadata
-* Categorized file scanning
-* Dataset manifest generation
-
----
-
-# Project Structure
+### 1. Install Dependencies
 
 ```bash
-backend/
-│
-├── main.py                # Main API gateway
-├── load.py                # Upload & cleaning module
-├── pilih_var.py           # Variable selection module
-├── var_macro.py           # VAR(1) simulation module
-├── prob_resesi.py         # Recession probability module
-├── model_esg.py           # Scenario scenario module
-├── file_history.py        # File audit/history module
-├── requirements.txt       # Python dependencies
-│
-└── data/
-    └── <dataset_id>/
-        ├── timeseries_clean.csv
-        ├── selection.json
-        ├── var1_macro/
-        ├── resesi/
-        ├── esg/
-        └── ...
+!pip install pandas numpy statsmodels matplotlib xlsxwriter reportlab
+```
+
+### 2. Run the Notebook
+
+Execute cells in sequence:
+
+1. **Data Load** (Google Sheets / Drive / Upload)
+2. **Data Cleaning**
+3. **Data Visualization**
+4. **Select Target & Exogenous Variables**
+5. **VAR(1) + Monte Carlo Simulation** for exogenous forecasts
+6. **SARIMAX Multi-Scenario Forecasting**
+7. **Custom Shock Generator** (optional)
+8. **Generate Reports**
+
+---
+
+## 📊 Workflow
+
+1. Load and clean monthly time series data
+2. Forecast exogenous variables using **VAR(1)** + Monte Carlo (1000 simulations)
+3. Fit **SARIMAX** models for target variables
+4. Generate multiple economic scenarios
+5. Apply custom macroeconomic shocks
+6. Evaluate performance and export results
+
+---
+
+## 🔧 Key Parameters
+
+- `HORIZON = 60` → 5-year forecast horizon
+- `N_SIM = 1000` → Number of Monte Carlo simulations
+- SARIMAX order: `(1,1,1)` with seasonal `(0,1,1,12)`
+- Shock profile: Ramp, Plateau, and Decay with adjustable intensity
+
+---
+
+## 📈 Main Outputs
+
+- Multi-scenario forecasts for selected target variables
+- Model performance metrics (RMSE, MAE, MAPE, R², Direction Accuracy)
+- Model diagnostics (Ljung-Box, Jarque-Bera, etc.)
+- Scenario impact analysis (vs Base case)
+- Professional Excel + PDF reports with charts
+
+---
+
+## 📌 Notes
+
+- Optimized for **monthly frequency** data
+- Requires a `Date` column in the input dataset
+- Target and Exogenous variables are selected interactively
+- Best run in **Google Colab**
+
+---
+
+## 👤 Author
+
+Built for macroeconomic forecasting and scenario analysis.
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+**Macroeconomic Scenario Generator** — Robust forecasting and stress testing toolkit.
 ```
 
 ---
 
-# Installation
+You can copy and paste this directly into your `README.md` file.
 
-## 1. Clone Repository
-
-```bash
-git clone <your-repository-url>
-cd backend
-```
-
----
-
-## 2. Create Virtual Environment
-
-### Windows
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
----
-
-## 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# Running the API
-
-Run the main gateway:
-
-```bash
-uvicorn main:app --reload --port 8000
-```
-
-API will be available at:
-
-```bash
-http://127.0.0.1:8000
-```
-
----
-
-# API Documentation
-
-Each module has its own FastAPI documentation.
-
-| Module             | Docs URL        |
-| ------------------ | --------------- |
-| Load/Clean         | `/load/docs`    |
-| Variable Selection | `/select/docs`  |
-| VAR Macro          | `/var/docs`     |
-| Recession Model    | `/resesi/docs`  |
-| Scenario Model     | `/esg/docs`     |
-| File History       | `/history/docs` |
-
-Example:
-
-```bash
-http://127.0.0.1:8000/load/docs
-```
-
----
-
-# Workflow Pipeline
-
-## Step 1 — Upload Dataset
-
-Upload CSV/XLSX dataset through:
-
-```http
-POST /load/upload
-```
-
-Output:
-
-* Cleaned dataset
-* Time-series plots
-* Dataset ID
-
----
-
-## Step 2 — Select Variables
-
-Choose:
-
-* Target variables
-* Exogenous variables
-
-Endpoints:
-
-```http
-GET  /select/dataset/{dataset_id}/columns
-POST /select/dataset/{dataset_id}/select
-```
-
----
-
-## Step 3 — Run VAR(1) Simulation
-
-Generate macroeconomic forecasts:
-
-```http
-POST /var/run
-```
-
-Outputs:
-
-* Monte Carlo simulations
-* Fan charts
-* Percentile summaries
-
----
-
-## Step 4 — Run Recession Probability Model
-
-```http
-POST /resesi/run
-```
-
-Outputs:
-
-* Recession probability forecast
-* Probability plots
-
----
-
-## Step 5 — Generate Scenario Scenarios
-
-```http
-POST /esg/run
-```
-
-Outputs:
-
-* Scenario scenario forecasts
-* Asset stress projections
-* Validation metrics
-
----
-
-# Generated Outputs
-
-The backend automatically generates outputs inside:
-
-```bash
-data/<dataset_id>/
-```
-
-Possible outputs include:
-
-```bash
-selection.json
-summary_percentiles.csv
-prob_resesi.csv
-fan_chart_grid.png
-historis_plus_fan.png
-esg_mc_grid.png
-manifest.json
-```
-
----
-
-# Technologies Used
-
-* Python
-* FastAPI
-* Pandas
-* NumPy
-* Matplotlib
-* Statsmodels
-* Scikit-learn
-* Uvicorn
-
----
-
-# Dependencies
-
-Main dependencies used in this project:
-
-```txt
-fastapi
-uvicorn
-pandas
-numpy
-matplotlib
-statsmodels
-scikit-learn
-python-multipart
-openpyxl
-xlrd
-```
-
-Install all dependencies using:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# Example Development Setup
-
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate environment
-venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run server
-uvicorn main:app --reload --port 8000
-```
-
----
-
-# Notes
-
-* The backend is modular and each module can run independently.
-* Generated datasets are stored locally under the `data/` directory.
-* CORS is enabled for development purposes.
-* The system is designed for economic forecasting and Scenario scenario analysis workflows.
-
----
-
-# Future Improvements
-
-Potential future enhancements:
-
-* Authentication & authorization
-* PostgreSQL integration
-* Docker deployment
-* Cloud storage integration
-* Real-time dashboard integration
-* Automated model retraining
-* Advanced stress-testing scenarios
-
----
-
-# License
-
-This project is intended for educational, research, and internal development purposes.
-
----
-
-# Author
-
-Developed by Noorharsy Imanullah.
+Would you like any adjustments (e.g., different project name, shorter version, or adding screenshots section)?
