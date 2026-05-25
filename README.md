@@ -1,6 +1,6 @@
 # Macroeconomic Scenario Generator Prototype
 
-This project is a macroeconomic scenario generator prototype developed using Python and Jupyter Notebook (`.ipynb`).
+This project is a macroeconomic scenario generator prototype developed using Python and Google Collab (`.ipynb`).
 
 The notebook combines:
 
